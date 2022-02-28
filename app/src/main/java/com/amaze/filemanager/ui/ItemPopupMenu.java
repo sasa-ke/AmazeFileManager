@@ -21,6 +21,9 @@
 package com.amaze.filemanager.ui;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
@@ -39,10 +42,14 @@ import com.amaze.filemanager.ui.fragments.MainFragment;
 import com.amaze.filemanager.ui.fragments.preference_fragments.PreferencesConstants;
 import com.amaze.filemanager.ui.provider.UtilitiesProvider;
 import com.amaze.filemanager.utils.DataUtils;
+import com.mikepenz.iconics.utils.IconicsUtils;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -266,7 +273,30 @@ public class ItemPopupMenu extends PopupMenu implements PopupMenu.OnMenuItemClic
       case R.id.return_select:
         mainFragment.returnIntentResults(rowItem.generateBaseFile());
         return true;
-    }
+      case R.id.convert:
+        String message = mainFragment.getString(R.string.convert_fail);
+        HybridFileParcelable sourceFile = rowItem.generateBaseFile();
+        HybridFileParcelable destinationFile = rowItem.generateBaseFile();
+        String path = destinationFile.getPath().substring(0,destinationFile.getPath().lastIndexOf("."))+".png";
+        destinationFile.setPath(path);
+        try {
+          FileOutputStream outputStream = new FileOutputStream(destinationFile.getPath());
+          Bitmap image = BitmapFactory.decodeFile(sourceFile.getPath());
+          if (image != null) {
+            image.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+            outputStream.flush();
+            outputStream.close();
+            message = mainFragment.getString(R.string.convert_succes);
+          }
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+        }
+        Toast.makeText(
+                mainFragment.getActivity(),
+                message,
+                Toast.LENGTH_LONG)
+                .show();
+  }
     return false;
   }
 }
