@@ -710,7 +710,11 @@
     <string name="remember">Remember for next time</string>
     <string name="ftp_prompt_accept_first_start_saf_access_title">Grant SAF access for FTP server</string>
     <string name="ftp_prompt_accept_first_start_saf_access">Since this is your first run of the FTP server, and you are using the device\'s internal storage as shared folder, please allow Amaze to access the storage using SAF.\n\n
-
 You only need to do this once, until the next time you select a new location for sharing.</string>
+
+    <!-- Strings for PNG conversion feature -->
+    <string name="convert_succes">Conversion to PNG succesful."</string>
+    <string name="convert_fail">Conversion to PNG failed."</string>
+
 </resources>
 

@@ -1142,6 +1142,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
           popupMenu.inflate(R.menu.item_extras);
           String description = rowItem.desc.toLowerCase();
 
+          // Show `convert` option if extension is .jpg or .jpeg
+          if (description.toLowerCase().endsWith(".jpg") || description.toLowerCase().endsWith(".jpeg")) {
+            popupMenu.getMenu().findItem(R.id.convert).setVisible(true);
+          }
+
           if (rowItem.isDirectory) {
             popupMenu.getMenu().findItem(R.id.open_with).setVisible(false);
             popupMenu.getMenu().findItem(R.id.share).setVisible(false);
